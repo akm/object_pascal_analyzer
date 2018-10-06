@@ -65,7 +65,7 @@ $ object_pascal_analyzer csv summary PATH\_TO\_DIRECTORY > result.csv
 ```
 
 | path          | class           | procedure/function | total\_lines | empty\_lines | comment\_lines | living\_lines  | max\_depth |
-|---            |---              |---                 |---          :|---          :|---            :|---            :|---        :|
+|---------------|-----------------|--------------------|-------------:|-------------:|---------------:|---------------:|-----------:|
 | JvChart.pas   | TJvChart        | PaintCursor        | 12           | 2            | 1              | 9              | 1          |
 | JvChart.pas   | TJvChart        | PrimaryYAxisLabels | 27           | 0            | 0              | 27             | 3          |
 | JvChart.pas   | TJvChart        | DrawVerticalBars   | 51           | 6            | 5              | 40             | 2          |
