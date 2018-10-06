@@ -18,15 +18,47 @@ $ gem install object_pascal_analyzer
 
 ## Usage 使い方
 
-1. Call `object_pascal_analyzer` (`object_pascal_analyzer` を実行します)
-    ```bash
-    $ object_pascal_analyzer PATH\_TO\_YOUR\_SOURCE\_CODE\_DIRECTORY > result.csv
-    ```
-1. Open result.csv and check it (`result.csv`を開いてチェックしましょう )
+1. Show summary by `object_pascal_analyzer summary PATH\_TO\_DIRECTORY`
+1. Check the details by
+    - `object_pascal_analyzer csv PATH\_TO\_DIRECTORY > result.csv`
+    - `object_pascal_analyzer json PATH\_TO\_DIRECTORY > result.json`
+
+1. サマリを表示します `object_pascal_analyzer summary PATH\_TO\_DIRECTORY`
+1. 以下のコマンドで詳細をチェックします
+    - `object_pascal_analyzer csv PATH\_TO\_DIRECTORY > result.csv`
+    - `object_pascal_analyzer json PATH\_TO\_DIRECTORY > result.json`
 
 Check the result repeatedly. (結果を繰り返しチェックしましょう)
 
-### Result CSV
+### Summary
+
+```
+$ object_pascal_analyzer summary PATH\_TO\_DIRECTORY
+```
+
+```
+Top 10 of the longest procedures or functions
+  1. JvChart.pas   TJvChart.DrawVerticalBars   51
+  2. JvChart.pas   TJvChart.PrimaryYAxisLabels 27
+  ...
+
+Top 10 of the deepest procedures or functions
+  1. JvChart.pas   TJvChart.PrimaryYAxisLabels 3
+  2. JvChart.pas   TJvChart.DrawVerticalBars   2
+  ...
+
+Top 10 of the most commented procedures or functions
+  2. JvChart.pas   TJvChart.DrawVerticalBars   5
+  1. JvChart.pas   TJvChart.PaintCursor        1
+  ...
+```
+
+
+### CSV
+
+```
+$ object_pascal_analyzer csv summary PATH\_TO\_DIRECTORY > result.csv
+```
 
 | path          | class           | procedure/function | total\_lines | empty\_lines | comment\_lines | living\_lines  | max\_depth |
 |---            |---              |---                 |---          :|---          :|---            :|---            :|---        :|
@@ -50,7 +82,7 @@ Check the result repeatedly. (結果を繰り返しチェックしましょう)
 ### JSON format
 
 ```bash
-$ object_pascal_analyzer PATH\_TO\_YOUR\_SOURCE\_CODE\_DIRECTORY --json  > result.json
+$ object_pascal_analyzer json json PATH\_TO\_DIRECTORY  > result.json
 ```
 
 ```json
