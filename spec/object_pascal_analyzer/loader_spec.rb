@@ -153,7 +153,7 @@ RSpec.describe ObjectPascalAnalyzer::Loader do
         it { expect(subject.classes.length).to eq 1 }
       end
 
-      it_behaves_like 'basic_demo_class'
+      it_behaves_like 'basic_demo_unit1'
       it_behaves_like 'thread_demo_mouse_reader'
     end
   end
