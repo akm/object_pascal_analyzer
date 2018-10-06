@@ -18,10 +18,14 @@ $ gem install object_pascal_analyzer
 
 ## Usage 使い方
 
+### English
+
 1. Show summary by `object_pascal_analyzer summary PATH\_TO\_DIRECTORY`
 1. Check the details by
     - `object_pascal_analyzer csv PATH\_TO\_DIRECTORY > result.csv`
     - `object_pascal_analyzer json PATH\_TO\_DIRECTORY > result.json`
+
+### 日本語
 
 1. サマリを表示します `object_pascal_analyzer summary PATH\_TO\_DIRECTORY`
 1. 以下のコマンドで詳細をチェックします
