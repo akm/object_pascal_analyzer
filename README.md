@@ -40,6 +40,8 @@ Check the result repeatedly. (結果を繰り返しチェックしましょう)
 $ object_pascal_analyzer summary PATH\_TO\_DIRECTORY
 ```
 
+TODO Update the result before 1st release.
+
 ```
 Top 10 of the longest procedures or functions
   1. JvChart.pas   TJvChart.DrawVerticalBars   51
@@ -63,6 +65,8 @@ Top 10 of the most commented procedures or functions
 ```
 $ object_pascal_analyzer csv summary PATH\_TO\_DIRECTORY > result.csv
 ```
+
+TODO Update the result before 1st release.
 
 | path          | class           | procedure/function | total\_lines | empty\_lines | comment\_lines | living\_lines  | max\_depth |
 |---------------|-----------------|--------------------|-------------:|-------------:|---------------:|---------------:|-----------:|
@@ -88,6 +92,8 @@ $ object_pascal_analyzer csv summary PATH\_TO\_DIRECTORY > result.csv
 ```bash
 $ object_pascal_analyzer json json PATH\_TO\_DIRECTORY  > result.json
 ```
+
+TODO Update the result before 1st release.
 
 ```json
 {
