@@ -95,7 +95,7 @@ $ object_pascal_analyzer json json PATH\_TO\_DIRECTORY  > result.json
                     "name": "TJvChart",
                     "functions": [
                         {
-                            "name": "PaintCursor"
+                            "name": "PaintCursor",
                             "total_lines": 12,
                             "empty_lines": 2,
                             "comment_lines": 1,
@@ -103,7 +103,7 @@ $ object_pascal_analyzer json json PATH\_TO\_DIRECTORY  > result.json
                             "max_depth": 1
                         },
                         {
-                            "name": "PrimaryYAxisLabels"
+                            "name": "PrimaryYAxisLabels",
                             "total_lines": 27,
                             "empty_lines": 0,
                             "comment_lines": 0,
@@ -111,7 +111,7 @@ $ object_pascal_analyzer json json PATH\_TO\_DIRECTORY  > result.json
                             "max_depth": 3
                         },
                         {
-                            "name": "DrawVerticalBars"
+                            "name": "DrawVerticalBars",
                             "total_lines": 51,
                             "empty_lines": 6,
                             "comment_lines": 5,
@@ -119,7 +119,7 @@ $ object_pascal_analyzer json json PATH\_TO\_DIRECTORY  > result.json
                             "max_depth": 2
                         },
                         {
-                            "name": "DrawVerticalBars/CalcRawRect"
+                            "name": "DrawVerticalBars/CalcRawRect",
                             "total_lines": 9,
                             "empty_lines": 0,
                             "comment_lines": 0,
