@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-require "object_pascal_analyzer"
+require "object_pascal_analyzer/cli"
+
+ObjectPascalAnalyzer::Cli.start(ARGV)
