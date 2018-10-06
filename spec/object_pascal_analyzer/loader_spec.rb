@@ -5,14 +5,14 @@ RSpec.describe ObjectPascalAnalyzer::Loader do
   # requires basic_demo_unit1
   shared_examples_for 'basic_demo_unit1' do
     let(:tform1){ basic_demo_unit1.classes['TForm1'] }
-    let(:hidctldevicechange){ tform1.methods['HidCtlDeviceChange'] }
-    let(:hidctlenumerate){ tform1.methods['HidCtlEnumerate'] }
+    let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
+    let(:hidctlenumerate){ tform1.functions['HidCtlEnumerate'] }
 
     context "TForm1" do
       subject{ tform1 }
       it do
         expect(subject.name).to eq "TForm1"
-        expect(subject.methods.length).to eq 2
+        expect(subject.functions.length).to eq 2
       end
     end
 
@@ -44,18 +44,18 @@ RSpec.describe ObjectPascalAnalyzer::Loader do
   # requires thread_demo_mouse_reader
   shared_examples_for 'thread_demo_mouse_reader' do
     let(:tform1){ thread_demo_mouse_reader.classes['TForm1'] }
-    let(:hidctldevicechange){ tform1.methods['HidCtlDeviceChange'] }
+    let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
 
     let(:tmousethread){ thread_demo_mouse_reader.classes['TMouseThread'] }
-    let(:handlemousedata){ tmousethread.methods['HandleMouseData'] }
-    let(:execute        ){ tmousethread.methods['Execute'] }
-    let(:execute_dummy  ){ tmousethread.methods['Execute/Dummy'] }
+    let(:handlemousedata){ tmousethread.functions['HandleMouseData'] }
+    let(:execute        ){ tmousethread.functions['Execute'] }
+    let(:execute_dummy  ){ tmousethread.functions['Execute/Dummy'] }
 
     context "TForm1" do
       subject{ tform1 }
       it do
         expect(subject.name).to eq "TForm1"
-        expect(subject.methods.length).to eq 1
+        expect(subject.functions.length).to eq 1
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe ObjectPascalAnalyzer::Loader do
       subject{ tmousethread }
       it do
         expect(subject.name).to eq "TMouseThread"
-        expect(subject.methods.length).to eq 3
+        expect(subject.functions.length).to eq 3
       end
     end
 
