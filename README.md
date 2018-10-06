@@ -1,28 +1,107 @@
 # ObjectPascalAnalyzer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/object_pascal_analyzer`. To experiment with that code, run `bin/console` for an interactive prompt.
+Analyze your Object Pascal source code statically with ObjectPascalAnalyzer.
 
-TODO: Delete this and the text above, and describe your gem
+ObjectPascalAnalyzerで静的にソースコードを解析しましょう。
 
-## Installation
 
-Add this line to your application's Gemfile:
+## Prerequisite 前提条件
 
-```ruby
-gem 'object_pascal_analyzer'
+- [Ruby](https://www.ruby-lang.org/ja/downloads/)
+
+
+## Installation インストール
+
+```bash
+$ gem install object_pascal_analyzer
 ```
 
-And then execute:
+## Usage 使い方
 
-    $ bundle
+1. Call `object_pascal_analyzer` (`object_pascal_analyzer` を実行します)
+    ```bash
+    $ object_pascal_analyzer PATH\_TO\_YOUR\_SOURCE\_CODE\_DIRECTORY > result.csv
+    ```
+1. Open result.csv and check it (`result.csv`を開いてチェックしましょう )
 
-Or install it yourself as:
+Check the result repeatedly. (結果を繰り返しチェックしましょう)
 
-    $ gem install object_pascal_analyzer
+### Result CSV
 
-## Usage
+| path          | class           | procedure/function | total\_lines | empty\_lines | comment\_lines | living\_lines  | max\_depth |
+|---            |---              |---                 |---          :|---          :|---            :|---            :|---        :|
+| JvChart.pas   | TJvChart        | PaintCursor        | 12           | 2            | 1              | 9              | 1          |
+| JvChart.pas   | TJvChart        | PrimaryYAxisLabels | 27           | 0            | 0              | 27             | 3          |
+| JvChart.pas   | TJvChart        | DrawVerticalBars   | 51           | 6            | 5              | 40             | 2          |
+| JvChart.pas   | TJvChart        | DrawVerticalBars/CalcRawRect | 9  | 0            | 0              |  9             | 0          |
 
-TODO: Write usage instructions here
+
+- `total lines` means the number of lines between `begin` and `end`. It doesn't contains `begin` and `end`.
+- `comment_lines` means the number of lines which is totally commented out with `//`.
+    - Now `(*...*)` and `{...}` aren't supported.
+        - You can send us a pull request!
+
+
+- `total lines` は `begin` と `end` の間の行数です. `begin` と `end` は含みません。
+- `comment_lines` は `//` で全部がコメントになっている行です。
+    - 現時点では `(*...*)` と `{...}` はサポートされていません。
+        - Pull Requestを送るチャンスですよ！
+
+### JSON format
+
+```bash
+$ object_pascal_analyzer PATH\_TO\_YOUR\_SOURCE\_CODE\_DIRECTORY --json  > result.json
+```
+
+```json
+{
+    "files": [
+        {
+            "path": "JvChart.pas",
+            "classes": [
+                {
+                    "name": "TJvChart",
+                    "functions": [
+                        {
+                            "name": "PaintCursor"
+                            "total_lines": 12,
+                            "empty_lines": 2,
+                            "comment_lines": 1,
+                            "living_lines": 9,
+                            "max_depth": 1
+                        },
+                        {
+                            "name": "PrimaryYAxisLabels"
+                            "total_lines": 27,
+                            "empty_lines": 0,
+                            "comment_lines": 0,
+                            "living_lines": 27,
+                            "max_depth": 3
+                        },
+                        {
+                            "name": "DrawVerticalBars"
+                            "total_lines": 51,
+                            "empty_lines": 6,
+                            "comment_lines": 5,
+                            "living_lines": 40,
+                            "max_depth": 2
+                        },
+                        {
+                            "name": "DrawVerticalBars/CalcRawRect"
+                            "total_lines": 9,
+                            "empty_lines": 0,
+                            "comment_lines": 0,
+                            "living_lines": 9,
+                            "max_depth": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
 
 ## Development
 
