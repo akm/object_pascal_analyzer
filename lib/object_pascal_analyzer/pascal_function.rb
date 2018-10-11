@@ -32,16 +32,16 @@ module ObjectPascalAnalyzer
           yield if block_given?
         end
       else
-      if @begins > 0
-        @total_lines += 1
-        if line =~ EMPTY_PATTERN
-          @empty_lines += 1
-        elsif line =~ COMMENT_PATTERN
-          @comment_lines += 1
+        if @begins > 0
+          @total_lines += 1
+          if line =~ EMPTY_PATTERN
+            @empty_lines += 1
+          elsif line =~ COMMENT_PATTERN
+            @comment_lines += 1
+          end
+        else
+          # begin前は特にカウントしない
         end
-      else
-        # begin前は特にカウントしない
-      end
       end
     end
   end
