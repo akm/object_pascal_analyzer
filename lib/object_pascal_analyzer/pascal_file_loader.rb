@@ -45,10 +45,9 @@ module ObjectPascalAnalyzer
       if func
         @function_stack.push(@current) if @current
         @current = new_function(func)
-        return
-      end
-      return unless @current
+      elsif @current
       @current.process(line){ @current = @function_stack.pop } # functionの定義を終える際に呼び出されるブロックを指定
+      end
     end
 
     def new_function(func)
