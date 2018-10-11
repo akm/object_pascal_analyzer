@@ -43,8 +43,8 @@ module ObjectPascalAnalyzer
     BEGIN_PATTERN = /\bbegin\s*(?:\#.+)?\z/i
     END_PATTERN = /\bend\s*\;\s*(?:\#.+)?\z/i
 
-    EMPTY_PATTERN = /\A\s*\z/
-    COMMENT_PATTERN = /\A\s*\#.*\z/
+    EMPTY_PATTERN = /\A\s*\n\z/
+    COMMENT_PATTERN = /\A\s*\/\/.*\n\z/
 
     def process(line)
       func = line.scan(FUNCTION_PATTERN).flatten.first
