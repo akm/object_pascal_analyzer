@@ -54,7 +54,7 @@ module ObjectPascalAnalyzer
         @current_begins = 0
         return
       end
-      if @current
+      return unless @current
         if line =~ BEGIN_PATTERN
           @current.total_lines += 1 if @current_begins > 0
           @current_begins += 1
@@ -75,7 +75,6 @@ module ObjectPascalAnalyzer
         else
           # begin前は特にカウントしない
         end
-      end
     end
 
     def new_function(func)
