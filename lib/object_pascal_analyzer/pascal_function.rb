@@ -32,13 +32,12 @@ module ObjectPascalAnalyzer
           yield if block_given?
         end
       else
-        if @begins > 0
+        return unless @begins > 0
           @total_lines += 1
           case line
           when EMPTY_PATTERN then @empty_lines += 1
           when COMMENT_PATTERN then @comment_lines += 1
           end
-        end
       end
     end
   end
