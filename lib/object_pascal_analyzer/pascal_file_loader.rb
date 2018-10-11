@@ -52,7 +52,9 @@ module ObjectPascalAnalyzer
         @function_stack.push(@current) if @current
         @current = new_function(func)
         @current_begins = 0
-      elsif @current
+        return
+      end
+      if @current
         if line =~ BEGIN_PATTERN
           @current.total_lines += 1 if @current_begins > 0
           @current_begins += 1
