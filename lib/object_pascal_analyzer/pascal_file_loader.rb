@@ -55,26 +55,26 @@ module ObjectPascalAnalyzer
         return
       end
       return unless @current
-        if line =~ BEGIN_PATTERN
-          @current.total_lines += 1 if @current_begins > 0
-          @current_begins += 1
-          @current.max_depth = @current_begins -1 if @current.max_depth < @current_begins -1
-        elsif line =~ END_PATTERN
-          @current_begins -= 1
-          @current.total_lines += 1 if @current_begins > 0
-          if @current_begins == 0
-            @current = @function_stack.pop
-          end
-        elsif @current_begins > 0
-          @current.total_lines += 1
-          if line =~ EMPTY_PATTERN
-            @current.empty_lines += 1
-          elsif line =~ COMMENT_PATTERN
-            @current.comment_lines += 1
-          end
-        else
-          # begin前は特にカウントしない
+      if line =~ BEGIN_PATTERN
+        @current.total_lines += 1 if @current_begins > 0
+        @current_begins += 1
+        @current.max_depth = @current_begins -1 if @current.max_depth < @current_begins -1
+      elsif line =~ END_PATTERN
+        @current_begins -= 1
+        @current.total_lines += 1 if @current_begins > 0
+        if @current_begins == 0
+          @current = @function_stack.pop
         end
+      elsif @current_begins > 0
+        @current.total_lines += 1
+        if line =~ EMPTY_PATTERN
+          @current.empty_lines += 1
+        elsif line =~ COMMENT_PATTERN
+          @current.comment_lines += 1
+        end
+      else
+        # begin前は特にカウントしない
+      end
     end
 
     def new_function(func)
