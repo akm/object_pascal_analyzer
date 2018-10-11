@@ -33,7 +33,7 @@ module ObjectPascalAnalyzer
       elsif @begins > 0
         @total_lines += 1
         if line =~ EMPTY_PATTERN
-          self.empty_lines += 1
+          @empty_lines += 1
         elsif line =~ COMMENT_PATTERN
           self.comment_lines += 1
         end
