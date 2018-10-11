@@ -35,7 +35,7 @@ module ObjectPascalAnalyzer
         if line =~ EMPTY_PATTERN
           @empty_lines += 1
         elsif line =~ COMMENT_PATTERN
-          self.comment_lines += 1
+          @comment_lines += 1
         end
       else
         # begin前は特にカウントしない
