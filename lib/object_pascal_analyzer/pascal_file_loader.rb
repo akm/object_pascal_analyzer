@@ -40,12 +40,6 @@ module ObjectPascalAnalyzer
     FUNCTION_PATTERN = /\s*(?:function|procedure)\s+([\w\.]+)/i
     METHOD_PATTERN = /\A(\w+)\.(\w+)\z/i
 
-    BEGIN_PATTERN = /\bbegin\s*(?:\#.+)?\z/i
-    END_PATTERN = /\bend\s*\;\s*(?:\#.+)?\z/i
-
-    EMPTY_PATTERN = /\A\s*\n\z/
-    COMMENT_PATTERN = /\A\s*\/\/.*\n\z/
-
     def process(line)
       func = line.scan(FUNCTION_PATTERN).flatten.first
       if func
@@ -54,26 +48,7 @@ module ObjectPascalAnalyzer
         return
       end
       return unless @current
-      if line =~ BEGIN_PATTERN
-        @current.total_lines += 1 if @current.begins > 0
-        @current.begins += 1
-        @current.max_depth = @current.begins - 1 if @current.max_depth < @current.begins - 1
-      elsif line =~ END_PATTERN
-        @current.begins -= 1
-        @current.total_lines += 1 if @current.begins > 0
-        if @current.begins == 0
-          @current = @function_stack.pop
-        end
-      elsif @current.begins > 0
-        @current.total_lines += 1
-        if line =~ EMPTY_PATTERN
-          @current.empty_lines += 1
-        elsif line =~ COMMENT_PATTERN
-          @current.comment_lines += 1
-        end
-      else
-        # begin前は特にカウントしない
-      end
+      @current.process(line){ @current = @function_stack.pop } # functionの定義を終える際に呼び出されるブロックを指定
     end
 
     def new_function(func)
