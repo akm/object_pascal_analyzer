@@ -57,10 +57,12 @@ module ObjectPascalAnalyzer
         @current_begins = 0
       elsif @current
         if line =~ BEGIN_PATTERN
+          @current.total_lines += 1 if @current_begins > 0
           @current_begins += 1
           @current.max_depth = @current_begins -1 if @current.max_depth < @current_begins -1
         elsif line =~ END_PATTERN
           @current_begins -= 1
+          @current.total_lines += 1 if @current_begins > 0
           if @current_begins == 0
             @current = @function_stack.pop
           end
