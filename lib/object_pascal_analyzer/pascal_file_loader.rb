@@ -49,19 +49,8 @@ module ObjectPascalAnalyzer
     def process(line)
       func = line.scan(FUNCTION_PATTERN).flatten.first
       if func
-        class_name, meth = func.scan(METHOD_PATTERN).flatten
-        if class_name
-          func_name = meth
-        elsif @current
-          class_name = @current.klass.name
-          func_name = "%s/%s" % [@current.name, func]
-          @function_stack.push(@current)
-        else
-          class_name = 'unit' # class_name ならクラス用のメソッドではなくユニットの関数
-          func_name = func
-        end
-        klass = pascal_file.class_by(class_name)
-        @current = klass.function_by(func_name)
+        @function_stack.push(@current) if @current
+        @current = new_function(func)
         @current_begins = 0
       elsif @current
         if line =~ BEGIN_PATTERN
@@ -85,7 +74,21 @@ module ObjectPascalAnalyzer
           # begin前は特にカウントしない
         end
       end
+    end
 
+    def new_function(func)
+      class_name, meth = func.scan(METHOD_PATTERN).flatten
+      if class_name
+        func_name = meth
+      elsif @current
+        class_name = @current.klass.name
+        func_name = "%s/%s" % [@current.name, func]
+      else
+        class_name = 'unit' # class_name ならクラス用のメソッドではなくユニットの関数
+        func_name = func
+      end
+      klass = pascal_file.class_by(class_name)
+      return klass.function_by(func_name)
     end
   end
 end
