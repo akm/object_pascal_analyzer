@@ -38,8 +38,6 @@ module ObjectPascalAnalyzer
           when EMPTY_PATTERN then @empty_lines += 1
           when COMMENT_PATTERN then @comment_lines += 1
           end
-        else
-          # begin前は特にカウントしない
         end
       end
     end
