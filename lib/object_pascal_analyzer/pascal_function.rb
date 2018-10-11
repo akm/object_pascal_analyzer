@@ -23,7 +23,7 @@ module ObjectPascalAnalyzer
       if line =~ BEGIN_PATTERN
         @total_lines += 1 if @begins > 0
         @begins += 1
-        self.max_depth = @begins - 1 if self.max_depth < @begins - 1
+        @max_depth = @begins - 1 if @max_depth < @begins - 1
       elsif line =~ END_PATTERN
         @begins -= 1
         @total_lines += 1 if @begins > 0
