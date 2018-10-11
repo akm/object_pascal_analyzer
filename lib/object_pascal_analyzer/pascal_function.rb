@@ -21,17 +21,17 @@ module ObjectPascalAnalyzer
     # ブロックが渡される場合ブロックは、lineがEND_PATTERNにマッチしてfunctionの定義を終える場合に呼び出されます
     def process(line)
       if line =~ BEGIN_PATTERN
-        self.total_lines += 1 if self.begins > 0
+        @total_lines += 1 if self.begins > 0
         self.begins += 1
         self.max_depth = self.begins - 1 if self.max_depth < self.begins - 1
       elsif line =~ END_PATTERN
         self.begins -= 1
-        self.total_lines += 1 if self.begins > 0
+        @total_lines += 1 if self.begins > 0
         if self.begins == 0
           yield if block_given?
         end
       elsif self.begins > 0
-        self.total_lines += 1
+        @total_lines += 1
         if line =~ EMPTY_PATTERN
           self.empty_lines += 1
         elsif line =~ COMMENT_PATTERN
