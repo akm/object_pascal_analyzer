@@ -1,8 +1,8 @@
 require "object_pascal_analyzer"
 
+require "object_pascal_analyzer/pascal_file"
+
 module ObjectPascalAnalyzer
-  class Loader
-    def load(path_to_dir)
-    end
+  class PascalFileLoader
   end
 end
