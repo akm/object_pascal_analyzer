@@ -13,5 +13,12 @@ module ObjectPascalAnalyzer
     def class_by(name)
       @classes[name] ||= PascalClass.new(self, name)
     end
+
+    def to_hash
+      {
+        path: name,
+        classes: classes.values.map(&:to_hash)
+      }
+    end
   end
 end
