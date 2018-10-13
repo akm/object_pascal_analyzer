@@ -41,14 +41,16 @@ module ObjectPascalAnalyzer
       end
     end
 
-    def to_hash
-      {
+    def to_hash(full: false)
+      r = {
         name: name,
         total_lines: total_lines,
         empty_lines: empty_lines,
         comment_lines: comment_lines,
         max_depth: max_depth,
       }
+      r.update(class: klass.name, path: klass.pascal_file.name) if full
+      return r
     end
   end
 end
