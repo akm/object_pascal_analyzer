@@ -10,7 +10,11 @@ module ObjectPascalAnalyzer
       base = Pathname.new(base_dir)
       Dir.glob(File.join(base_dir, "**/*.pas")).each.with_object({}) do |path, r|
         name = Pathname.new(path).relative_path_from(base).to_s
-        r[name] = PascalFileLoader.new(path, name).execute
+        begin
+          r[name] = PascalFileLoader.new(path, name).execute
+        rescue Exception => e
+          $stderr.puts("Failed to load %s because of %s" % [name, e.inspect])
+        end
       end
     end
   end
