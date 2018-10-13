@@ -1,5 +1,6 @@
 require "object_pascal_analyzer"
 
+require 'json'
 require 'thor'
 
 module ObjectPascalAnalyzer
@@ -16,7 +17,9 @@ module ObjectPascalAnalyzer
 
     desc 'json PATH_TO_DIR', 'Show details in JSON'
     def json(path_to_dir)
-      $stdout.puts "Show details of #{path_to_dir} in JSON"
+      pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
+      hash = {files: pascal_files.values.map(&:to_hash)}
+      $stdout.puts JSON.pretty_generate(hash)
     end
 
     desc 'version', 'Show version'
