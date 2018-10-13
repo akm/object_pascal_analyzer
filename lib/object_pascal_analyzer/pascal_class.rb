@@ -20,5 +20,9 @@ module ObjectPascalAnalyzer
         functions: functions.values.map(&:to_hash)
       }
     end
+
+    def function_array
+      functions.values
+    end
   end
 end
