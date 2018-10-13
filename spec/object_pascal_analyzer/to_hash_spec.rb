@@ -72,13 +72,7 @@ RSpec.describe ObjectPascalAnalyzer::PascalFile do
 
   describe :functions do
     it do
-      expect(subject.classes.length).to eq 2
-      expect(subject.classes.values[0].functions.length).to eq 2
-      expect(subject.classes.values[1].functions.length).to eq 1
       result = subject.functions
-      result.each do |r|
-        p r
-      end
       expect(result.length).to eq 3
       result[0].tap do |r|
         expect(r.klass.pascal_file.name).to eq "unit1.pas"
