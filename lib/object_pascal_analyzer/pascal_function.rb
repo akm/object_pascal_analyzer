@@ -40,5 +40,15 @@ module ObjectPascalAnalyzer
         end
       end
     end
+
+    def to_hash
+      {
+        name: name,
+        total_lines: total_lines,
+        empty_lines: empty_lines,
+        comment_lines: comment_lines,
+        max_depth: max_depth,
+      }
+    end
   end
 end

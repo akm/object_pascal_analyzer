@@ -13,5 +13,12 @@ module ObjectPascalAnalyzer
     def function_by(name)
       @functions[name] ||= PascalFunction.new(self, name)
     end
+
+    def to_hash
+      {
+        name: name,
+        functions: functions.values.map(&:to_hash)
+      }
+    end
   end
 end
