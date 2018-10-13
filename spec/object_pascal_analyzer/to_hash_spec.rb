@@ -70,5 +70,44 @@ RSpec.describe ObjectPascalAnalyzer::PascalFile do
     end
   end
 
+  describe :functions do
+    it do
+      expect(subject.classes.length).to eq 2
+      expect(subject.classes.values[0].functions.length).to eq 2
+      expect(subject.classes.values[1].functions.length).to eq 1
+      result = subject.functions
+      result.each do |r|
+        p r
+      end
+      expect(result.length).to eq 3
+      result[0].tap do |r|
+        expect(r.klass.pascal_file.name).to eq "unit1.pas"
+        expect(r.klass.name).to eq "TForm1"
+        expect(r.name).to eq "Button1Click"
+        expect(r.total_lines).to eq 10
+        expect(r.empty_lines).to eq 2
+        expect(r.comment_lines).to eq 3
+        expect(r.max_depth).to eq 1
+      end
+      result[1].tap do |r|
+        expect(r.klass.pascal_file.name).to eq "unit1.pas"
+        expect(r.klass.name).to eq "TForm1"
+        expect(r.name).to eq "Input1Change"
+        expect(r.total_lines).to eq 40
+        expect(r.empty_lines).to eq 2
+        expect(r.comment_lines).to eq 10
+        expect(r.max_depth).to eq 3
+      end
+      result[2].tap do |r|
+        expect(r.klass.pascal_file.name).to eq "unit1.pas"
+        expect(r.klass.name).to eq "THelper"
+        expect(r.name).to eq "run"
+        expect(r.total_lines).to eq 20
+        expect(r.empty_lines).to eq 3
+        expect(r.comment_lines).to eq 0
+        expect(r.max_depth).to eq 2
+      end
+    end
+  end
 
 end
