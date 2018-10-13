@@ -102,6 +102,40 @@ RSpec.describe ObjectPascalAnalyzer::PascalFile do
         expect(r.max_depth).to eq 2
       end
     end
+
+    it "is used with to_hash(full: true)" do
+      result = subject.functions.map{|f| f.to_hash(full: true)}
+      expected = [
+        {
+          path: "unit1.pas",
+          class: "TForm1",
+          name: "Button1Click",
+          total_lines: 10,
+          empty_lines: 2,
+          comment_lines: 3,
+          max_depth: 1,
+        },
+        {
+          path: "unit1.pas",
+          class: "TForm1",
+          name: "Input1Change",
+          total_lines: 40,
+          empty_lines: 2,
+          comment_lines: 10,
+          max_depth: 3,
+        },
+        {
+          path: "unit1.pas",
+          class: "THelper",
+          name: "run",
+          total_lines: 20,
+          empty_lines: 3,
+          comment_lines: 0,
+          max_depth: 2,
+        },
+      ]
+      expect(result).to eq expected
+    end
   end
 
 end
