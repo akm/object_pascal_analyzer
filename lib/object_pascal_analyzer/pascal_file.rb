@@ -30,7 +30,7 @@ module ObjectPascalAnalyzer
     end
 
     def functions
-      classes.map(&:function_array).flatten
+      classes.map(&:functions).flatten
     end
   end
 end
