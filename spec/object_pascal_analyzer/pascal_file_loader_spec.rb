@@ -213,4 +213,19 @@ RSpec.describe ObjectPascalAnalyzer do
     end
   end
 
+  context "too many depth" do
+    let(:path){ File.expand_path("../../jedi-jvcl/jvcl/examples/JvParameterList/JvParameterListMainForm.pas", __FILE__) }
+    let(:loader){ ObjectPascalAnalyzer::PascalFileLoader.new(path, "JvParameterListMainForm.pas") }
+    it do
+      pascal_file = loader.execute
+      klass = pascal_file.class_by("TJvParameterListDemoMainFrm")
+      klass.function_by("Button15Click").tap do |f|
+        expect(f.total_lines).to eq 150
+        expect(f.empty_lines).to eq 0
+        expect(f.comment_lines).to eq 3
+        expect(f.max_depth).to eq 1
+      end
+    end
+  end
+
 end
