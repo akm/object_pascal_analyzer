@@ -52,13 +52,22 @@ module ObjectPascalAnalyzer
     FUNCTION_PATTERN = /\s*(?:function|procedure)\s+([\w\.]+)/i
     METHOD_PATTERN = /\A(\w+)\.(\w+)\z/i
 
+    EMPTY_PATTERN = /\A\s*\n\z/
+    COMMENT_PATTERN = /\A\s*\/\/.*\n\z/
+
     def process(line)
-      func = line.scan(FUNCTION_PATTERN).flatten.first
-      if func
-        @function_stack.push(@current) if @current
-        @current = new_function(func)
-      elsif @current
-        @current.process(line){ @current = @function_stack.pop } # functionの定義を終える際に呼び出されるブロックを指定
+      case line
+      when EMPTY_PATTERN   then @current.empty_line   if @current
+      when COMMENT_PATTERN then @current.comment_line if @current
+      else
+        func = line.scan(FUNCTION_PATTERN).flatten.first
+        if func
+          $stderr.puts "===== #{func} =====" if DEBUG
+          @function_stack.push(@current) if @current
+          @current = new_function(func)
+        elsif @current
+          @current.process(line){ @current = @function_stack.pop } # functionの定義を終える際に呼び出されるブロックを指定
+        end
       end
     end
 

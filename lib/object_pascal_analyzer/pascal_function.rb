@@ -12,15 +12,17 @@ module ObjectPascalAnalyzer
       @begins = 0
     end
 
+    BEGIN_AND_END_PATTERN = /\bbegin\b.+\bend/i
+    END_AND_BEGIN_PATTERN = /\bend\b.+\bbegin/i
     BEGIN_PATTERN = /\bbegin\s*(?:\#.+)?\z/i
-    END_PATTERN = /\bend\s*\;\s*(?:\#.+)?\z/i
-
-    EMPTY_PATTERN = /\A\s*\n\z/
-    COMMENT_PATTERN = /\A\s*\/\/.*\n\z/
+    END_PATTERN = /\bend\b/i
 
     # ブロックが渡される場合ブロックは、lineがEND_PATTERNにマッチしてfunctionの定義を終える場合に呼び出されます
     def process(line)
+      $stderr.puts "#{name} #{@begins} #{line}" if DEBUG
       case line
+      when BEGIN_AND_END_PATTERN, END_AND_BEGIN_PATTERN
+        @total_lines += 1 if @begins > 0
       when BEGIN_PATTERN
         @total_lines += 1 if @begins > 0
         @begins += 1
@@ -32,13 +34,24 @@ module ObjectPascalAnalyzer
           yield if block_given?
         end
       else
-        return unless @begins > 0
-        @total_lines += 1
-        case line
-        when EMPTY_PATTERN then @empty_lines += 1
-        when COMMENT_PATTERN then @comment_lines += 1
-        end
+        increment
       end
+    end
+
+    def empty_line
+      $stderr.puts "#{name} #{@begins} (empty)" if DEBUG
+      increment{ @empty_lines += 1 }
+    end
+
+    def comment_line
+      $stderr.puts "#{name} #{@begins} (comment)" if DEBUG
+      increment{ @comment_lines += 1 }
+    end
+
+    def increment
+      return unless @begins > 0
+      @total_lines += 1
+      yield if block_given?
     end
 
     def to_hash(full: false)
