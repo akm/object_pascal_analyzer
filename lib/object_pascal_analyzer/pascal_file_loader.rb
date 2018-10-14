@@ -52,7 +52,13 @@ module ObjectPascalAnalyzer
     FUNCTION_PATTERN = /\s*(?:function|procedure)\s+([\w\.]+)/i
     METHOD_PATTERN = /\A(\w+)\.(\w+)\z/i
 
+    COMMENT_PATTERN = /\A\s*\/\/.*\n\z/
+
     def process(line)
+      if line =~ COMMENT_PATTERN
+        @current.comment_line if @current
+        return
+      end
       func = line.scan(FUNCTION_PATTERN).flatten.first
       if func
         @function_stack.push(@current) if @current

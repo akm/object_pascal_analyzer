@@ -16,7 +16,6 @@ module ObjectPascalAnalyzer
     END_PATTERN = /\bend\s*\;\s*(?:\#.+)?\z/i
 
     EMPTY_PATTERN = /\A\s*\n\z/
-    COMMENT_PATTERN = /\A\s*\/\/.*\n\z/
 
     # ブロックが渡される場合ブロックは、lineがEND_PATTERNにマッチしてfunctionの定義を終える場合に呼び出されます
     def process(line)
@@ -36,9 +35,14 @@ module ObjectPascalAnalyzer
         @total_lines += 1
         case line
         when EMPTY_PATTERN then @empty_lines += 1
-        when COMMENT_PATTERN then @comment_lines += 1
         end
       end
+    end
+
+    def comment_line
+      return unless @begins > 0
+      @total_lines += 1
+      @comment_lines += 1
     end
 
     def to_hash(full: false)
