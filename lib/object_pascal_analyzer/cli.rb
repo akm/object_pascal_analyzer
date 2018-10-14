@@ -28,12 +28,12 @@ module ObjectPascalAnalyzer
     def csv(path_to_dir)
       pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
       result = pascal_files.map(&:functions).flatten.map{|f| f.to_hash(full: true)}
-      output = CSV.generate("", CSV_OPTIONS) do |csv|
+      text = CSV.generate("", CSV_OPTIONS) do |csv|
         result.each do |r|
           csv << CSV_HEADERS.map{|h| r[h]}
         end
       end
-      output output
+      output text
     end
 
     desc 'json PATH_TO_DIR', 'Show details in JSON'
