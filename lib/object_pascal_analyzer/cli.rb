@@ -22,9 +22,7 @@ module ObjectPascalAnalyzer
     desc 'csv PATH_TO_DIR', 'Show details in CSV'
     def csv(path_to_dir)
       pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
-      result = pascal_files.map do |f|
-        f.functions.map{|f| f.to_hash(full: true)}
-      end.flatten
+      result = pascal_files.map(&:functions).flatten.map{|f| f.to_hash(full: true)}
       options = {
         write_headers: true,
         headers: CSV_HEADERS,
