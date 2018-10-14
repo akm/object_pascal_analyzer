@@ -27,15 +27,15 @@ module ObjectPascalAnalyzer
       # https://docs.ruby-lang.org/ja/2.3.0/method/IO/s/read.html
       # https://docs.ruby-lang.org/ja/latest/method/Kernel/m/open.html
       source_text = File.read(path, mode: "r:utf-8:#{encode.to_s}")
-        source_text.lines.each do |line|
-          if found_implementation
-            process(line)
-          else
-            if IMPLEMENTATION_PATTERN =~ line
-              found_implementation = true
-            end
+      source_text.lines.each do |line|
+        if found_implementation
+          process(line)
+        else
+          if IMPLEMENTATION_PATTERN =~ line
+            found_implementation = true
           end
         end
+      end
       pascal_file
     end
 
