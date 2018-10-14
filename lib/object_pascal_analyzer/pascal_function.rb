@@ -12,6 +12,8 @@ module ObjectPascalAnalyzer
       @begins = 0
     end
 
+    BEGIN_AND_END_PATTERN = /\bbegin\b.+\bend/i
+    END_AND_BEGIN_PATTERN = /\bend\b.+\bbegin/i
     BEGIN_PATTERN = /\bbegin\s*(?:\#.+)?\z/i
     END_PATTERN = /\bend\s*\;?\s*(?:\#.+)?\z/i
 
@@ -19,6 +21,8 @@ module ObjectPascalAnalyzer
     def process(line)
       $stderr.puts "#{name} #{@begins} #{line}" if DEBUG
       case line
+      when BEGIN_AND_END_PATTERN, END_AND_BEGIN_PATTERN
+        @total_lines += 1 if @begins > 0
       when BEGIN_PATTERN
         @total_lines += 1 if @begins > 0
         @begins += 1
