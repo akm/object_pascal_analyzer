@@ -52,9 +52,14 @@ module ObjectPascalAnalyzer
     FUNCTION_PATTERN = /\s*(?:function|procedure)\s+([\w\.]+)/i
     METHOD_PATTERN = /\A(\w+)\.(\w+)\z/i
 
+    EMPTY_PATTERN = /\A\s*\n\z/
     COMMENT_PATTERN = /\A\s*\/\/.*\n\z/
 
     def process(line)
+      if line =~ EMPTY_PATTERN
+        @current.empty_line if @current
+        return
+      end
       if line =~ COMMENT_PATTERN
         @current.comment_line if @current
         return
