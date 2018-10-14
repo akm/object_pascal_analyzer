@@ -166,4 +166,25 @@ RSpec.describe ObjectPascalAnalyzer do
     end
   end
 
+  context "unit functions" do
+    let(:path){ File.expand_path("../../examples/with_commented_functions.pas", __FILE__) }
+    let(:loader){ ObjectPascalAnalyzer::PascalFileLoader.new(path, "with_commented_functions.pas") }
+    it do
+      pascal_file = loader.execute
+      expect(pascal_file.classes.length).to eq 1
+      unit = pascal_file.class_by("unit")
+      expect(unit.functions.length).to eq 2
+      unit.function_by("ADD_SPACE").tap do |f|
+        expect(f.total_lines).to eq 8
+        expect(f.empty_lines).to eq 2
+        expect(f.comment_lines).to eq 0
+      end
+      unit.function_by("ADD_SPACE2").tap do |f|
+        expect(f.total_lines).to eq 9
+        expect(f.empty_lines).to eq 2
+        expect(f.comment_lines).to eq 0
+      end
+    end
+  end
+
 end
