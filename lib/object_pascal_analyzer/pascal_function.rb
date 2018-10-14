@@ -17,6 +17,7 @@ module ObjectPascalAnalyzer
 
     # ブロックが渡される場合ブロックは、lineがEND_PATTERNにマッチしてfunctionの定義を終える場合に呼び出されます
     def process(line)
+      $stderr.puts "#{name} #{@begins} #{line}"
       case line
       when BEGIN_PATTERN
         @total_lines += 1 if @begins > 0
@@ -34,10 +35,12 @@ module ObjectPascalAnalyzer
     end
 
     def empty_line
+      $stderr.puts "#{name} #{@begins} (empty)"
       increment{ @empty_lines += 1 }
     end
 
     def comment_line
+      $stderr.puts "#{name} #{@begins} (comment)"
       increment{ @comment_lines += 1 }
     end
 

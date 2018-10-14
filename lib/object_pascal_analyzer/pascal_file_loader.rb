@@ -62,6 +62,7 @@ module ObjectPascalAnalyzer
       else
         func = line.scan(FUNCTION_PATTERN).flatten.first
         if func
+          $stderr.puts "===== #{func} ====="
           @function_stack.push(@current) if @current
           @current = new_function(func)
         elsif @current
