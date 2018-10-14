@@ -154,4 +154,16 @@ RSpec.describe ObjectPascalAnalyzer do
       it_behaves_like 'thread_demo_mouse_reader'
     end
   end
+
+  # JvSpecialProgress.pas includes some invalid character (byte sequences ).
+  File.expand_path("../../jedi-jvcl/tests/restructured/examples/JvSpecialProgress", __FILE__).tap do |path|
+    context path do
+      it do
+        expect {
+          ObjectPascalAnalyzer.load(path)
+        }.not_to raise_error
+      end
+    end
+  end
+
 end
