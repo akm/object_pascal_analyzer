@@ -7,22 +7,30 @@ module ObjectPascalAnalyzer
     attr_reader :klass, :name, :classes
     def initialize(name)
       @name = name
-      @classes = {}
+      @classes = []
+    end
+
+    def add_class(name)
+      PascalClass.new(self, name).tap{|r| @classes << r}
+    end
+
+    def find_class(name)
+      @classes.detect{|c| c.name == name}
     end
 
     def class_by(name)
-      @classes[name] ||= PascalClass.new(self, name)
+      find_class(name) || add_class(name)
     end
 
     def to_hash
       {
         path: name,
-        classes: classes.values.map(&:to_hash)
+        classes: classes.map(&:to_hash)
       }
     end
 
     def functions
-      classes.values.map(&:function_array).flatten
+      classes.map(&:function_array).flatten
     end
   end
 end

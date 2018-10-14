@@ -3,7 +3,7 @@ require 'object_pascal_analyzer'
 RSpec.describe ObjectPascalAnalyzer do
   # requires basic_demo_unit1
   shared_examples_for 'basic_demo_unit1' do
-    let(:tform1){ basic_demo_unit1.classes['TForm1'] }
+    let(:tform1){ basic_demo_unit1.find_class('TForm1') }
     let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
     let(:hidctlenumerate){ tform1.functions['HidCtlEnumerate'] }
 
@@ -42,10 +42,10 @@ RSpec.describe ObjectPascalAnalyzer do
 
   # requires thread_demo_mouse_reader
   shared_examples_for 'thread_demo_mouse_reader' do
-    let(:tform1){ thread_demo_mouse_reader.classes['TForm1'] }
+    let(:tform1){ thread_demo_mouse_reader.find_class('TForm1') }
     let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
 
-    let(:tmousethread){ thread_demo_mouse_reader.classes['TMouseThread'] }
+    let(:tmousethread){ thread_demo_mouse_reader.find_class('TMouseThread') }
     let(:handlemousedata){ tmousethread.functions['HandleMouseData'] }
     let(:execute        ){ tmousethread.functions['Execute'] }
     let(:execute_dummy  ){ tmousethread.functions['Execute/Dummy'] }
@@ -172,7 +172,7 @@ RSpec.describe ObjectPascalAnalyzer do
     it do
       pascal_file = loader.execute
       expect(pascal_file.classes.length).to eq 1
-      unit = pascal_file.class_by("unit")
+      unit = pascal_file.find_class("unit")
       expect(unit.functions.length).to eq 4
       unit.function_by("ADD_SPACE").tap do |f|
         expect(f.total_lines).to eq 8
@@ -203,7 +203,7 @@ RSpec.describe ObjectPascalAnalyzer do
     it do
       pascal_file = loader.execute
       expect(pascal_file.classes.length).to eq 1
-      unit = pascal_file.class_by("unit")
+      unit = pascal_file.find_class("unit")
       expect(unit.functions.length).to eq 1
       unit.function_by("DEL_ALL_SPACE").tap do |f|
         expect(f.total_lines).to eq 33
@@ -218,7 +218,7 @@ RSpec.describe ObjectPascalAnalyzer do
     let(:loader){ ObjectPascalAnalyzer::PascalFileLoader.new(path, "JvParameterListMainForm.pas") }
     it do
       pascal_file = loader.execute
-      klass = pascal_file.class_by("TJvParameterListDemoMainFrm")
+      klass = pascal_file.find_class("TJvParameterListDemoMainFrm")
       klass.function_by("Button15Click").tap do |f|
         expect(f.total_lines).to eq 150
         expect(f.empty_lines).to eq 0
