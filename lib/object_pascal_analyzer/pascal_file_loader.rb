@@ -1,6 +1,8 @@
 # coding: utf-8
 require "object_pascal_analyzer"
 
+require 'nkf'
+
 require "object_pascal_analyzer/pascal_file"
 
 module ObjectPascalAnalyzer
@@ -20,7 +22,10 @@ module ObjectPascalAnalyzer
 
     def execute
       found_implementation = false
-      open(path) do |source_file|
+      # https://docs.ruby-lang.org/ja/2.3.0/class/NKF.html
+      encode = NKF.guess(File.read(path))
+      # https://docs.ruby-lang.org/ja/latest/method/Kernel/m/open.html
+      open(path, "r:utf-8:#{encode.to_s}") do |source_file|
         source_file.each_line do |line|
           if found_implementation
             process(line)
