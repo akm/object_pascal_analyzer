@@ -4,8 +4,8 @@ RSpec.describe ObjectPascalAnalyzer do
   # requires basic_demo_unit1
   shared_examples_for 'basic_demo_unit1' do
     let(:tform1){ basic_demo_unit1.find_class('TForm1') }
-    let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
-    let(:hidctlenumerate){ tform1.functions['HidCtlEnumerate'] }
+    let(:hidctldevicechange){ tform1.find_function('HidCtlDeviceChange') }
+    let(:hidctlenumerate){ tform1.find_function('HidCtlEnumerate') }
 
     context "TForm1" do
       subject{ tform1 }
@@ -43,12 +43,12 @@ RSpec.describe ObjectPascalAnalyzer do
   # requires thread_demo_mouse_reader
   shared_examples_for 'thread_demo_mouse_reader' do
     let(:tform1){ thread_demo_mouse_reader.find_class('TForm1') }
-    let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
+    let(:hidctldevicechange){ tform1.find_function('HidCtlDeviceChange') }
 
     let(:tmousethread){ thread_demo_mouse_reader.find_class('TMouseThread') }
-    let(:handlemousedata){ tmousethread.functions['HandleMouseData'] }
-    let(:execute        ){ tmousethread.functions['Execute'] }
-    let(:execute_dummy  ){ tmousethread.functions['Execute/Dummy'] }
+    let(:handlemousedata){ tmousethread.find_function('HandleMouseData') }
+    let(:execute        ){ tmousethread.find_function('Execute') }
+    let(:execute_dummy  ){ tmousethread.find_function('Execute/Dummy') }
 
     context "TForm1" do
       subject{ tform1 }
