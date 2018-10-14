@@ -15,7 +15,7 @@ module ObjectPascalAnalyzer
     BEGIN_AND_END_PATTERN = /\bbegin\b.+\bend/i
     END_AND_BEGIN_PATTERN = /\bend\b.+\bbegin/i
     BEGIN_PATTERN = /\bbegin\s*(?:\#.+)?\z/i
-    END_PATTERN = /\bend\s*\;?\s*(?:\#.+)?\z/i
+    END_PATTERN = /\bend\b/i
 
     # ブロックが渡される場合ブロックは、lineがEND_PATTERNにマッチしてfunctionの定義を終える場合に呼び出されます
     def process(line)
