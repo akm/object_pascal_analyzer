@@ -3,9 +3,9 @@ require 'object_pascal_analyzer'
 RSpec.describe ObjectPascalAnalyzer do
   # requires basic_demo_unit1
   shared_examples_for 'basic_demo_unit1' do
-    let(:tform1){ basic_demo_unit1.classes['TForm1'] }
-    let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
-    let(:hidctlenumerate){ tform1.functions['HidCtlEnumerate'] }
+    let(:tform1){ basic_demo_unit1.find_class('TForm1') }
+    let(:hidctldevicechange){ tform1.find_function('HidCtlDeviceChange') }
+    let(:hidctlenumerate){ tform1.find_function('HidCtlEnumerate') }
 
     context "TForm1" do
       subject{ tform1 }
@@ -42,13 +42,13 @@ RSpec.describe ObjectPascalAnalyzer do
 
   # requires thread_demo_mouse_reader
   shared_examples_for 'thread_demo_mouse_reader' do
-    let(:tform1){ thread_demo_mouse_reader.classes['TForm1'] }
-    let(:hidctldevicechange){ tform1.functions['HidCtlDeviceChange'] }
+    let(:tform1){ thread_demo_mouse_reader.find_class('TForm1') }
+    let(:hidctldevicechange){ tform1.find_function('HidCtlDeviceChange') }
 
-    let(:tmousethread){ thread_demo_mouse_reader.classes['TMouseThread'] }
-    let(:handlemousedata){ tmousethread.functions['HandleMouseData'] }
-    let(:execute        ){ tmousethread.functions['Execute'] }
-    let(:execute_dummy  ){ tmousethread.functions['Execute/Dummy'] }
+    let(:tmousethread){ thread_demo_mouse_reader.find_class('TMouseThread') }
+    let(:handlemousedata){ tmousethread.find_function('HandleMouseData') }
+    let(:execute        ){ tmousethread.find_function('Execute') }
+    let(:execute_dummy  ){ tmousethread.find_function('Execute/Dummy') }
 
     context "TForm1" do
       subject{ tform1 }
@@ -118,7 +118,7 @@ RSpec.describe ObjectPascalAnalyzer do
   File.expand_path("../../jedi-jvcl/tests/restructured/examples/HID/BasicDemo", __FILE__).tap do |path|
     context path do
       let(:result){ ObjectPascalAnalyzer.load(path) }
-      let(:basic_demo_unit1){ result['Unit1.pas'] }
+      let(:basic_demo_unit1){ result.detect{|f| f.name == 'Unit1.pas'} }
 
       context "result" do
         it { expect(result.length).to eq 1 }
@@ -137,8 +137,8 @@ RSpec.describe ObjectPascalAnalyzer do
   File.expand_path("../../jedi-jvcl/tests/restructured/examples/HID", __FILE__).tap do |path|
     context path do
       let(:result){ ObjectPascalAnalyzer.load(path) }
-      let(:basic_demo_unit1){ result['BasicDemo/Unit1.pas'] }
-      let(:thread_demo_mouse_reader){ result['ThreadDemo/MouseReader.pas'] }
+      let(:basic_demo_unit1){ result.detect{|f| f.name == 'BasicDemo/Unit1.pas'} }
+      let(:thread_demo_mouse_reader){ result.detect{|f| f.name == 'ThreadDemo/MouseReader.pas'} }
 
       context "result" do
         it { expect(result.length).to eq 5 }
@@ -172,7 +172,7 @@ RSpec.describe ObjectPascalAnalyzer do
     it do
       pascal_file = loader.execute
       expect(pascal_file.classes.length).to eq 1
-      unit = pascal_file.class_by("unit")
+      unit = pascal_file.find_class("unit")
       expect(unit.functions.length).to eq 4
       unit.function_by("ADD_SPACE").tap do |f|
         expect(f.total_lines).to eq 8
@@ -203,7 +203,7 @@ RSpec.describe ObjectPascalAnalyzer do
     it do
       pascal_file = loader.execute
       expect(pascal_file.classes.length).to eq 1
-      unit = pascal_file.class_by("unit")
+      unit = pascal_file.find_class("unit")
       expect(unit.functions.length).to eq 1
       unit.function_by("DEL_ALL_SPACE").tap do |f|
         expect(f.total_lines).to eq 33
@@ -218,7 +218,7 @@ RSpec.describe ObjectPascalAnalyzer do
     let(:loader){ ObjectPascalAnalyzer::PascalFileLoader.new(path, "JvParameterListMainForm.pas") }
     it do
       pascal_file = loader.execute
-      klass = pascal_file.class_by("TJvParameterListDemoMainFrm")
+      klass = pascal_file.find_class("TJvParameterListDemoMainFrm")
       klass.function_by("Button15Click").tap do |f|
         expect(f.total_lines).to eq 150
         expect(f.empty_lines).to eq 0

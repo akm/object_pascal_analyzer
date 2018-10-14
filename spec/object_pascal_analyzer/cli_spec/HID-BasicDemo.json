@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "path": "Unit1.pas",
+      "classes": [
+        {
+          "name": "TForm1",
+          "functions": [
+            {
+              "name": "HidCtlDeviceChange",
+              "total_lines": 2,
+              "empty_lines": 0,
+              "comment_lines": 0,
+              "max_depth": 0
+            },
+            {
+              "name": "HidCtlEnumerate",
+              "total_lines": 4,
+              "empty_lines": 0,
+              "comment_lines": 0,
+              "max_depth": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -7,22 +7,26 @@ module ObjectPascalAnalyzer
     attr_reader :pascal_file, :name, :functions
     def initialize(pascal_file, name)
       @pascal_file, @name = pascal_file, name
-      @functions = {}
+      @functions = []
+    end
+
+    def add_function(name)
+      PascalFunction.new(self, name).tap{|r| @functions << r}
+    end
+
+    def find_function(name)
+      @functions.detect{|f| f.name == name}
     end
 
     def function_by(name)
-      @functions[name] ||= PascalFunction.new(self, name)
+      find_function(name) || add_function(name)
     end
 
     def to_hash
       {
         name: name,
-        functions: functions.values.map(&:to_hash)
+        functions: functions.map(&:to_hash)
       }
-    end
-
-    def function_array
-      functions.values
     end
   end
 end
