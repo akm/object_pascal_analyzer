@@ -118,7 +118,7 @@ RSpec.describe ObjectPascalAnalyzer do
   File.expand_path("../../jedi-jvcl/tests/restructured/examples/HID/BasicDemo", __FILE__).tap do |path|
     context path do
       let(:result){ ObjectPascalAnalyzer.load(path) }
-      let(:basic_demo_unit1){ result['Unit1.pas'] }
+      let(:basic_demo_unit1){ result.detect{|f| f.name == 'Unit1.pas'} }
 
       context "result" do
         it { expect(result.length).to eq 1 }
@@ -137,8 +137,8 @@ RSpec.describe ObjectPascalAnalyzer do
   File.expand_path("../../jedi-jvcl/tests/restructured/examples/HID", __FILE__).tap do |path|
     context path do
       let(:result){ ObjectPascalAnalyzer.load(path) }
-      let(:basic_demo_unit1){ result['BasicDemo/Unit1.pas'] }
-      let(:thread_demo_mouse_reader){ result['ThreadDemo/MouseReader.pas'] }
+      let(:basic_demo_unit1){ result.detect{|f| f.name == 'BasicDemo/Unit1.pas'} }
+      let(:thread_demo_mouse_reader){ result.detect{|f| f.name == 'ThreadDemo/MouseReader.pas'} }
 
       context "result" do
         it { expect(result.length).to eq 5 }

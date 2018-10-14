@@ -22,7 +22,7 @@ module ObjectPascalAnalyzer
     desc 'csv PATH_TO_DIR', 'Show details in CSV'
     def csv(path_to_dir)
       pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
-      result = pascal_files.values.map do |f|
+      result = pascal_files.map do |f|
         f.functions.map{|f| f.to_hash(full: true)}
       end.flatten
       options = {
@@ -40,7 +40,7 @@ module ObjectPascalAnalyzer
     desc 'json PATH_TO_DIR', 'Show details in JSON'
     def json(path_to_dir)
       pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
-      hash = {files: pascal_files.values.map(&:to_hash)}
+      hash = {files: pascal_files.map(&:to_hash)}
       $stdout.puts JSON.pretty_generate(hash)
     end
 
