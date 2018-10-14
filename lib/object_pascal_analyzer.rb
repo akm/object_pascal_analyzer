@@ -5,6 +5,8 @@ require 'pathname'
 require "object_pascal_analyzer/pascal_file_loader"
 
 module ObjectPascalAnalyzer
+  DEBUG = ENV['DEBUG'] =~ /true|yes|on|1/i
+
   class << self
     def load(base_dir)
       base = Pathname.new(base_dir)
