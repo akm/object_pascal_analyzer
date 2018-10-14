@@ -24,9 +24,10 @@ module ObjectPascalAnalyzer
       found_implementation = false
       # https://docs.ruby-lang.org/ja/2.3.0/class/NKF.html
       encode = NKF.guess(File.read(path))
+      # https://docs.ruby-lang.org/ja/2.3.0/method/IO/s/read.html
       # https://docs.ruby-lang.org/ja/latest/method/Kernel/m/open.html
-      open(path, "r:utf-8:#{encode.to_s}") do |source_file|
-        source_file.each_line do |line|
+      source_text = File.read(path, mode: "r:utf-8:#{encode.to_s}")
+        source_text.lines.each do |line|
           if found_implementation
             process(line)
           else
@@ -35,7 +36,6 @@ module ObjectPascalAnalyzer
             end
           end
         end
-      end
       pascal_file
     end
 
