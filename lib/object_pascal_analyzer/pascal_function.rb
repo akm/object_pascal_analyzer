@@ -31,19 +31,24 @@ module ObjectPascalAnalyzer
           yield if block_given?
         end
       else
-        return unless @begins > 0
-        @total_lines += 1
-        case line
-        when EMPTY_PATTERN then @empty_lines += 1
+        increment do
+          case line
+          when EMPTY_PATTERN then @empty_lines += 1
+          end
         end
       end
     end
 
     def comment_line
+      increment{ @comment_lines += 1 }
+    end
+
+    def increment
       return unless @begins > 0
       @total_lines += 1
-      @comment_lines += 1
+      yield if block_given?
     end
+
 
     def to_hash(full: false)
       r = {
