@@ -19,15 +19,16 @@ module ObjectPascalAnalyzer
       :max_depth,
     ]
 
+    CSV_OPTIONS = {
+      write_headers: true,
+      headers: CSV_HEADERS,
+    }
+
     desc 'csv PATH_TO_DIR', 'Show details in CSV'
     def csv(path_to_dir)
       pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
       result = pascal_files.map(&:functions).flatten.map{|f| f.to_hash(full: true)}
-      options = {
-        write_headers: true,
-        headers: CSV_HEADERS,
-      }
-      output = CSV.generate("", options) do |csv|
+      output = CSV.generate("", CSV_OPTIONS) do |csv|
         result.each do |r|
           csv << CSV_HEADERS.map{|h| r[h]}
         end
