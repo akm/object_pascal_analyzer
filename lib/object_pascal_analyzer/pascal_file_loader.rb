@@ -41,6 +41,9 @@ module ObjectPascalAnalyzer
       # https://docs.ruby-lang.org/ja/2.3.0/method/IO/s/read.html
       # https://docs.ruby-lang.org/ja/latest/method/Kernel/m/open.html
       File.read(path, mode: "r:utf-8:#{encode.to_s}")
+    rescue EncodingError
+      # 変換不可能な不正な文字コードを含んでいる場合、それらを空白文字に置換した文字列を返します
+      File.read(path).encode(Encoding::UTF_8, invalid: :replace, undef: :replace, replace: "")
     end
 
     # Object pascal の識別子
