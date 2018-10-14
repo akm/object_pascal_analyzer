@@ -173,7 +173,7 @@ RSpec.describe ObjectPascalAnalyzer do
       pascal_file = loader.execute
       expect(pascal_file.classes.length).to eq 1
       unit = pascal_file.class_by("unit")
-      expect(unit.functions.length).to eq 2
+      expect(unit.functions.length).to eq 4
       unit.function_by("ADD_SPACE").tap do |f|
         expect(f.total_lines).to eq 8
         expect(f.empty_lines).to eq 2
@@ -182,6 +182,16 @@ RSpec.describe ObjectPascalAnalyzer do
       unit.function_by("ADD_SPACE2").tap do |f|
         expect(f.total_lines).to eq 9
         expect(f.empty_lines).to eq 2
+        expect(f.comment_lines).to eq 0
+      end
+      unit.function_by("DEL_ALL_SPACE").tap do |f|
+        expect(f.total_lines).to eq 35
+        expect(f.empty_lines).to eq 1
+        expect(f.comment_lines).to eq 0
+      end
+      unit.function_by("SYO_CHAR").tap do |f|
+        expect(f.total_lines).to eq 9
+        expect(f.empty_lines).to eq 0
         expect(f.comment_lines).to eq 0
       end
     end
