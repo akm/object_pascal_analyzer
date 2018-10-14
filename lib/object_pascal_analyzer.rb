@@ -13,7 +13,8 @@ module ObjectPascalAnalyzer
         begin
           r[name] = PascalFileLoader.new(path, name).execute
         rescue Exception => e
-          $stderr.puts("Failed to load %s because of %s" % [name, e.inspect])
+          $stderr.puts("Failed to load %s because of [%s] %s" % [name, e.class.name, e.inspect])
+          raise e
         end
       end
     end
