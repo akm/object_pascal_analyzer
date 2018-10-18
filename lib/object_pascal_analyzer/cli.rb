@@ -12,7 +12,7 @@ module ObjectPascalAnalyzer
       functions = pascal_files.map(&:functions).flatten.map{|f| f.to_hash(full: true)}
 
       result = [
-        build_table(functions),
+        build_table(functions[0,5]),
       ]
       output result.join("\n")
     end
