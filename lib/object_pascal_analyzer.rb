@@ -10,7 +10,7 @@ module ObjectPascalAnalyzer
   class << self
     def load(base_dir)
       base = Pathname.new(base_dir)
-      Dir.glob(File.join(base_dir, "**/*.pas")).map do |path|
+      Dir.glob(File.join(base_dir, "**/*.pas")).sort.map do |path|
         name = Pathname.new(path).relative_path_from(base).to_s
         begin
           PascalFileLoader.new(path, name).execute
