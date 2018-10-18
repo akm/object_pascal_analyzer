@@ -6,15 +6,29 @@ require 'thor'
 
 module ObjectPascalAnalyzer
   class Cli < Thor
+
+    SORT_KEYS = {
+      total: [:total_lines, :max_depth, :comment_lines, :path, :class, :name],
+      depth: [:max_depth, :total_lines, :comment_lines, :path, :class, :name],
+      comment: [:comment_lines, :total_lines, :max_depth, :path, :class, :name],
+    }
+
     desc 'summary PATH_TO_DIR', 'Show summary'
     def summary(path_to_dir)
       pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
       functions = pascal_files.map(&:functions).flatten.map{|f| f.to_hash(full: true)}
 
       result = [
-        build_table(functions[0,5]),
+        'Top 5 of the longest procedures or functions',
+        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:total]))[0,5]),
+        '',
+        'Top 5 of the deepest procedures or functions',
+        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:depth]))[0,5]),
+        '',
+        'Top 5 of the most commented procedures or functions',
+        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:comment]))[0,5]),
       ]
-      output result.join("\n")
+      output result.join("\n") + "\n"
     end
 
     CSV_HEADERS = [
@@ -108,6 +122,17 @@ module ObjectPascalAnalyzer
         end
         result.join("\n")
       end
+
+      def sort_proc_for(keys)
+        lambda do |a, b|
+          keys.each do |key|
+            d = a[key] <=> b[key]
+            return a[key].is_a?(Integer) ? -1 * d : d if d != 0
+          end
+          return 0
+        end
+      end
+
     end
   end
 end
