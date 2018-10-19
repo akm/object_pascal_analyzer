@@ -14,19 +14,22 @@ module ObjectPascalAnalyzer
     }
 
     desc 'summary PATH_TO_DIR', 'Show summary'
+    option :number, aliases: 'n', type: :numeric, default: 5
     def summary(path_to_dir)
       pascal_files = ObjectPascalAnalyzer.load(path_to_dir)
       functions = pascal_files.map(&:functions).flatten.map{|f| f.to_hash(full: true)}
 
+      num = options[:number].to_i
+
       result = [
         'Top 5 of the longest procedures or functions',
-        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:total]))[0,5]),
+        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:total]))[0,num]),
         '',
         'Top 5 of the deepest procedures or functions',
-        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:depth]))[0,5]),
+        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:depth]))[0,num]),
         '',
         'Top 5 of the most commented procedures or functions',
-        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:comment]))[0,5]),
+        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:comment]))[0,num]),
       ]
       output result.join("\n") + "\n"
     end
