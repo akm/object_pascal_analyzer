@@ -79,24 +79,31 @@ module ObjectPascalAnalyzer
         $stdout.puts(value)
       end
 
+      class Col
+        attr_reader :alignment, :title
+        def initialize(alignment, title)
+          @alignment, @title = alignment, title
+        end
+      end
+
       COLS = {
-        path:           {alignment: '-', title: 'Path'},
-        class:          {alignment: '-', title: 'Class'},
-        name:           {alignment: '-', title: 'Name'},
-        total_lines:    {alignment: '' , title: 'Total'},
-        empty_lines:    {alignment: '' , title: 'Empty'},
-        comment_lines:  {alignment: '' , title: 'Comment'},
-        max_depth:      {alignment: '' , title: 'Depth'},
+        path:           Col.new('-', 'Path'),
+        class:          Col.new('-', 'Class'),
+        name:           Col.new('-', 'Name'),
+        total_lines:    Col.new('' , 'Total'),
+        empty_lines:    Col.new('' , 'Empty'),
+        comment_lines:  Col.new('' , 'Comment'),
+        max_depth:      Col.new('' , 'Depth'),
       }
 
       def build_table(functions)
         max_lengths = CSV_HEADERS.each_with_object({}) do |col, d|
-          d[col] = (functions.map{|f| f[col]}.map(&:to_s) + [COLS[col][:title]]).map(&:length).max
+          d[col] = (functions.map{|f| f[col]}.map(&:to_s) + [COLS[col].title]).map(&:length).max
         end
-        row_format = CSV_HEADERS.map{|col| "%#{COLS[col][:alignment]}#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
+        row_format = CSV_HEADERS.map{|col| "%#{COLS[col].alignment}#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
         header_format = CSV_HEADERS.map{|col| "%-#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
 
-        titles = COLS.each_with_object({}){|(k,v), d| d[k] = v[:title] }
+        titles = COLS.each_with_object({}){|(k,col), d| d[k] = col.title }
         result = [header_format % titles]
         functions.each do |f|
           result << (row_format % f)
