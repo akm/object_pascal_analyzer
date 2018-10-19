@@ -7,6 +7,31 @@ require 'thor'
 module ObjectPascalAnalyzer
   class Cli < Thor
 
+    class Col
+      attr_reader :key, :alignment, :title
+      def initialize(key, alignment, title)
+        @key, @alignment, @title = key, alignment, title
+      end
+
+      def row_format(max_length)
+        "%#{alignment}#{max_length}\{#{key.to_s}\}"
+      end
+
+      def header_format(max_length)
+        "%-#{max_length}\{#{key.to_s}\}"
+      end
+    end
+
+    COLS = [
+      Col.new(:path,          '-', 'Path'),
+      Col.new(:class,         '-', 'Class'),
+      Col.new(:name,          '-', 'Name'),
+      Col.new(:total_lines,   '' , 'Total'),
+      Col.new(:empty_lines,   '' , 'Empty'),
+      Col.new(:comment_lines, '' , 'Comment'),
+      Col.new(:max_depth,     '' , 'Depth'),
+    ]
+
     SORT_KEYS = {
       total: [:total_lines, :max_depth, :comment_lines, :path, :class, :name],
       depth: [:max_depth, :total_lines, :comment_lines, :path, :class, :name],
@@ -78,31 +103,6 @@ module ObjectPascalAnalyzer
       def output(value)
         $stdout.puts(value)
       end
-
-      class Col
-        attr_reader :key, :alignment, :title
-        def initialize(key, alignment, title)
-          @key, @alignment, @title = key, alignment, title
-        end
-
-        def row_format(max_length)
-          "%#{alignment}#{max_length}\{#{key.to_s}\}"
-        end
-
-        def header_format(max_length)
-          "%-#{max_length}\{#{key.to_s}\}"
-        end
-      end
-
-      COLS = [
-        Col.new(:path,          '-', 'Path'),
-        Col.new(:class,         '-', 'Class'),
-        Col.new(:name,          '-', 'Name'),
-        Col.new(:total_lines,   '' , 'Total'),
-        Col.new(:empty_lines,   '' , 'Empty'),
-        Col.new(:comment_lines, '' , 'Comment'),
-        Col.new(:max_depth,     '' , 'Depth'),
-      ]
 
       def build_table(functions)
         max_lengths = COLS.each_with_object({}) do |col, d|
