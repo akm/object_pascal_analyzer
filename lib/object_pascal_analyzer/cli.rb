@@ -88,6 +88,10 @@ module ObjectPascalAnalyzer
         def row_format(max_length)
           "%#{alignment}#{max_length}\{#{key.to_s}\}"
         end
+
+        def header_format(max_length)
+          "%-#{max_length}\{#{key.to_s}\}"
+        end
       end
 
       COLS = [
@@ -105,7 +109,7 @@ module ObjectPascalAnalyzer
           d[col.key] = (functions.map{|f| f[col.key]}.map(&:to_s) + [col.title]).map(&:length).max
         end
         row_format = COLS.map{|col| col.row_format(max_lengths[col.key]) }.join(' ')
-        header_format = COLS.map{|col| "%-#{max_lengths[col.key]}\{#{col.key.to_s}\}" }.join(' ')
+        header_format = COLS.map{|col| col.header_format(max_lengths[col.key])  }.join(' ')
 
         titles = COLS.each_with_object({}){|col, d| d[col.key] = col.title }
         result = [header_format % titles]
