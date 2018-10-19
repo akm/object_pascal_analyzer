@@ -110,14 +110,8 @@ module ObjectPascalAnalyzer
         row_format = CSV_HEADERS.map{|col| "%#{ALIGNMENTS[col]}#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
         header_format = CSV_HEADERS.map{|col| "%-#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
 
-        puts "header_format"
-        puts header_format.inspect
-        puts "row_format"
-        puts row_format.inspect
         result = [header_format % TITLES]
-
         functions.each do |f|
-          p f
           result << (row_format % f)
         end
         result.join("\n")
