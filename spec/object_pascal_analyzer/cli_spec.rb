@@ -27,8 +27,15 @@ RSpec.describe ObjectPascalAnalyzer::Cli do
   end
 
   describe :summary do
-    it do
+    it :default do
+      subject.options = {number: 5}
       expect(subject).to receive(:output).with(File.read(File.expand_path('../cli_spec/HID_summary.txt', __FILE__)))
+      subject.summary(File.expand_path('../../jedi-jvcl/tests/restructured/examples/HID', __FILE__))
+    end
+
+    it "only top 3" do
+      subject.options = {number: 3}
+      expect(subject).to receive(:output).with(File.read(File.expand_path('../cli_spec/HID_summary_top3.txt', __FILE__)))
       subject.summary(File.expand_path('../../jedi-jvcl/tests/restructured/examples/HID', __FILE__))
     end
   end
