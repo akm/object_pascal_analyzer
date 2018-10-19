@@ -1,11 +1,23 @@
 require "object_pascal_analyzer"
 
+require "object_pascal_analyzer/column"
+
 require 'csv'
 require 'json'
 require 'thor'
 
 module ObjectPascalAnalyzer
   class Cli < Thor
+
+    COLS = [
+      Column.new(:path,          '-', 'Path'),
+      Column.new(:class,         '-', 'Class'),
+      Column.new(:name,          '-', 'Name'),
+      Column.new(:total_lines,   '' , 'Total'),
+      Column.new(:empty_lines,   '' , 'Empty'),
+      Column.new(:comment_lines, '' , 'Comment'),
+      Column.new(:max_depth,     '' , 'Depth'),
+    ]
 
     SORT_KEYS = {
       total: [:total_lines, :max_depth, :comment_lines, :path, :class, :name],
@@ -21,27 +33,23 @@ module ObjectPascalAnalyzer
 
       num = options[:number].to_i
 
-      result = [
-        "Top #{num} of the longest procedures or functions",
-        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:total]))[0,num]),
-        '',
-        "Top #{num} of the deepest procedures or functions",
-        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:depth]))[0,num]),
-        '',
-        "Top #{num} of the most commented procedures or functions",
-        build_table(functions.sort(&sort_proc_for(SORT_KEYS[:comment]))[0,num]),
+      defs = [
+        {type: :total, head: "Top #{num} of the longest procedures or functions"},
+        {type: :depth, head: "Top #{num} of the deepest procedures or functions"},
+        {type: :comment, head: "Top #{num} of the most commented procedures or functions"},
       ]
-      output result.join("\n") + "\n"
+
+      result = defs.map do |d|
+        [
+          d[:head],
+          build_table(functions.sort(&sort_proc_for(SORT_KEYS[d[:type]]))[0,num]),
+        ].join("\n")
+      end.join("\n\n")
+
+      output result + "\n"
     end
 
-    CSV_HEADERS = [
-      :path, :class, :name,
-      :total_lines,
-      :empty_lines,
-      :comment_lines,
-      :max_depth,
-    ]
-
+    CSV_HEADERS = COLS.map(&:key)
     CSV_OPTIONS = {
       write_headers: true,
       headers: CSV_HEADERS,
@@ -76,44 +84,15 @@ module ObjectPascalAnalyzer
         $stdout.puts(value)
       end
 
-      ALIGNMENTS = {
-        path: '-',
-        class: '-',
-        name: '-',
-        total_lines: '',
-        empty_lines: '',
-        comment_lines: '',
-        max_depth: '',
-      }
-
-      FORMAT_TYPES = {
-        path: 's',
-        class: 's',
-        name: 's',
-        total_lines: 'd',
-        empty_lines: 'd',
-        comment_lines: 'd',
-        max_depth: 'd',
-      }
-
-      TITLES = {
-        path: 'Path',
-        class: 'Class',
-        name: 'Name',
-        total_lines: 'Total',
-        empty_lines: 'Empty',
-        comment_lines: 'Comment',
-        max_depth: 'Depth',
-      }
-
       def build_table(functions)
-        max_lengths = CSV_HEADERS.each_with_object({}) do |col, d|
-          d[col] = (functions.map{|f| f[col]}.map(&:to_s) + [TITLES[col]]).map(&:length).max
+        max_lengths = COLS.each_with_object({}) do |col, d|
+          d[col.key] = (functions.map{|f| f[col.key]}.map(&:to_s) + [col.title]).map(&:length).max
         end
-        row_format = CSV_HEADERS.map{|col| "%#{ALIGNMENTS[col]}#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
-        header_format = CSV_HEADERS.map{|col| "%-#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
+        row_format = COLS.map{|col| col.row_format(max_lengths[col.key]) }.join(' ')
+        header_format = COLS.map{|col| col.header_format(max_lengths[col.key])  }.join(' ')
 
-        result = [header_format % TITLES]
+        titles = COLS.each_with_object({}){|col, d| d[col.key] = col.title }
+        result = [header_format % titles]
         functions.each do |f|
           result << (row_format % f)
         end
