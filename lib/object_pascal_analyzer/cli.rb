@@ -89,16 +89,6 @@ module ObjectPascalAnalyzer
         max_depth: '',
       }
 
-      FORMAT_TYPES = {
-        path: 's',
-        class: 's',
-        name: 's',
-        total_lines: 'd',
-        empty_lines: 'd',
-        comment_lines: 'd',
-        max_depth: 'd',
-      }
-
       TITLES = {
         path: 'Path',
         class: 'Class',
