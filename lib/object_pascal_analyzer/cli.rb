@@ -80,30 +80,30 @@ module ObjectPascalAnalyzer
       end
 
       class Col
-        attr_reader :alignment, :title
-        def initialize(alignment, title)
-          @alignment, @title = alignment, title
+        attr_reader :key, :alignment, :title
+        def initialize(key, alignment, title)
+          @key, @alignment, @title = key, alignment, title
         end
       end
 
-      COLS = {
-        path:           Col.new('-', 'Path'),
-        class:          Col.new('-', 'Class'),
-        name:           Col.new('-', 'Name'),
-        total_lines:    Col.new('' , 'Total'),
-        empty_lines:    Col.new('' , 'Empty'),
-        comment_lines:  Col.new('' , 'Comment'),
-        max_depth:      Col.new('' , 'Depth'),
-      }
+      COLS = [
+        Col.new(:path,          '-', 'Path'),
+        Col.new(:class,         '-', 'Class'),
+        Col.new(:name,          '-', 'Name'),
+        Col.new(:total_lines,   '' , 'Total'),
+        Col.new(:empty_lines,   '' , 'Empty'),
+        Col.new(:comment_lines, '' , 'Comment'),
+        Col.new(:max_depth,     '' , 'Depth'),
+      ]
 
       def build_table(functions)
-        max_lengths = CSV_HEADERS.each_with_object({}) do |col, d|
-          d[col] = (functions.map{|f| f[col]}.map(&:to_s) + [COLS[col].title]).map(&:length).max
+        max_lengths = COLS.each_with_object({}) do |col, d|
+          d[col.key] = (functions.map{|f| f[col.key]}.map(&:to_s) + [col.title]).map(&:length).max
         end
-        row_format = CSV_HEADERS.map{|col| "%#{COLS[col].alignment}#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
-        header_format = CSV_HEADERS.map{|col| "%-#{max_lengths[col]}\{#{col.to_s}\}" }.join(' ')
+        row_format = COLS.map{|col| "%#{col.alignment}#{max_lengths[col.key]}\{#{col.key.to_s}\}" }.join(' ')
+        header_format = COLS.map{|col| "%-#{max_lengths[col.key]}\{#{col.key.to_s}\}" }.join(' ')
 
-        titles = COLS.each_with_object({}){|(k,col), d| d[k] = col.title }
+        titles = COLS.each_with_object({}){|col, d| d[col.key] = col.title }
         result = [header_format % titles]
         functions.each do |f|
           result << (row_format % f)
