@@ -62,14 +62,7 @@ module ObjectPascalAnalyzer
       output result + "\n"
     end
 
-    CSV_HEADERS = [
-      :path, :class, :name,
-      :total_lines,
-      :empty_lines,
-      :comment_lines,
-      :max_depth,
-    ]
-
+    CSV_HEADERS = COLS.map(&:key)
     CSV_OPTIONS = {
       write_headers: true,
       headers: CSV_HEADERS,
