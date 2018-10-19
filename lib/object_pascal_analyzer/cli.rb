@@ -22,13 +22,13 @@ module ObjectPascalAnalyzer
       num = options[:number].to_i
 
       result = [
-        'Top 5 of the longest procedures or functions',
+        "Top #{num} of the longest procedures or functions",
         build_table(functions.sort(&sort_proc_for(SORT_KEYS[:total]))[0,num]),
         '',
-        'Top 5 of the deepest procedures or functions',
+        "Top #{num} of the deepest procedures or functions",
         build_table(functions.sort(&sort_proc_for(SORT_KEYS[:depth]))[0,num]),
         '',
-        'Top 5 of the most commented procedures or functions',
+        "Top #{num} of the most commented procedures or functions",
         build_table(functions.sort(&sort_proc_for(SORT_KEYS[:comment]))[0,num]),
       ]
       output result.join("\n") + "\n"
