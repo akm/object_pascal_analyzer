@@ -1,16 +1,16 @@
-Top 5 of the longest procedures or functions
+Top 3 of the longest procedures or functions
 Path                       Class  Name               Total Empty Comment Depth
 CollectionDemo/Unit1.pas   TForm1 EnumerateNodes       115     0       1     2
 ThreadDemo/MouseReader.pas TForm1 HidCtlDeviceChange    38     0       7     2
 ReadWriteDemo/Unit1.pas    TForm1 DoRead                35     0       0     2
 
-Top 5 of the deepest procedures or functions
+Top 3 of the deepest procedures or functions
 Path                       Class  Name               Total Empty Comment Depth
 ReadWriteDemo/Unit1.pas    TForm1 HidCtlDeviceChange    21     0       0     3
 CollectionDemo/Unit1.pas   TForm1 EnumerateNodes       115     0       1     2
 ThreadDemo/MouseReader.pas TForm1 HidCtlDeviceChange    38     0       7     2
 
-Top 5 of the most commented procedures or functions
+Top 3 of the most commented procedures or functions
 Path                       Class        Name               Total Empty Comment Depth
 ThreadDemo/MouseReader.pas TForm1       HidCtlDeviceChange    38     0       7     2
 ThreadDemo/MouseReader.pas TMouseThread Execute               18     0       5     1
