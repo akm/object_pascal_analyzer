@@ -40,23 +40,30 @@ Check the result repeatedly. (結果を繰り返しチェックしましょう)
 $ object_pascal_analyzer summary PATH\_TO\_DIRECTORY
 ```
 
-TODO Update the result before 1st release.
-
 ```
-Top 10 of the longest procedures or functions
-  1. JvChart.pas   TJvChart.DrawVerticalBars   51
-  2. JvChart.pas   TJvChart.PrimaryYAxisLabels 27
-  ...
+Top 5 of the longest procedures or functions
+Path                       Class  Name               Total Empty Comment Depth
+CollectionDemo/Unit1.pas   TForm1 EnumerateNodes       115     0       1     2
+ThreadDemo/MouseReader.pas TForm1 HidCtlDeviceChange    38     0       7     2
+ReadWriteDemo/Unit1.pas    TForm1 DoRead                35     0       0     2
+ReadWriteDemo/Unit1.pas    TForm1 DoWrite               35     1       0     2
+ReadWriteDemo/Unit1.pas    TForm1 HidCtlDeviceChange    21     0       0     3
 
-Top 10 of the deepest procedures or functions
-  1. JvChart.pas   TJvChart.PrimaryYAxisLabels 3
-  2. JvChart.pas   TJvChart.DrawVerticalBars   2
-  ...
+Top 5 of the deepest procedures or functions
+Path                       Class  Name               Total Empty Comment Depth
+ReadWriteDemo/Unit1.pas    TForm1 HidCtlDeviceChange    21     0       0     3
+CollectionDemo/Unit1.pas   TForm1 EnumerateNodes       115     0       1     2
+ThreadDemo/MouseReader.pas TForm1 HidCtlDeviceChange    38     0       7     2
+ReadWriteDemo/Unit1.pas    TForm1 DoRead                35     0       0     2
+ReadWriteDemo/Unit1.pas    TForm1 DoWrite               35     1       0     2
 
-Top 10 of the most commented procedures or functions
-  2. JvChart.pas   TJvChart.DrawVerticalBars   5
-  1. JvChart.pas   TJvChart.PaintCursor        1
-  ...
+Top 5 of the most commented procedures or functions
+Path                       Class        Name               Total Empty Comment Depth
+ThreadDemo/MouseReader.pas TForm1       HidCtlDeviceChange    38     0       7     2
+ThreadDemo/MouseReader.pas TMouseThread Execute               18     0       5     1
+ThreadDemo/MouseReader.pas TMouseThread HandleMouseData        6     0       2     0
+CollectionDemo/Unit1.pas   TForm1       EnumerateNodes       115     0       1     2
+ReadWriteDemo/Unit1.pas    TForm1       DoRead                35     0       0     2
 ```
 
 
@@ -66,15 +73,29 @@ Top 10 of the most commented procedures or functions
 $ object_pascal_analyzer csv summary PATH\_TO\_DIRECTORY > result.csv
 ```
 
-TODO Update the result before 1st release.
 
-| path          | class           | procedure/function | total\_lines | empty\_lines | comment\_lines | living\_lines  | max\_depth |
-|---------------|-----------------|--------------------|-------------:|-------------:|---------------:|---------------:|-----------:|
-| JvChart.pas   | TJvChart        | PaintCursor        | 12           | 2            | 1              | 9              | 1          |
-| JvChart.pas   | TJvChart        | PrimaryYAxisLabels | 27           | 0            | 0              | 27             | 3          |
-| JvChart.pas   | TJvChart        | DrawVerticalBars   | 51           | 6            | 5              | 40             | 2          |
-| JvChart.pas   | TJvChart        | DrawVerticalBars/CalcRawRect | 9  | 0            | 0              |  9             | 0          |
-
+path | class | name | total_lines | empty_lines | comment_lines | max_depth
+-- | -- | -- | -- | -- | -- | --
+BasicDemo/Unit1.pas | TForm1 | HidCtlDeviceChange | 2 | 0 | 0 | 0
+BasicDemo/Unit1.pas | TForm1 | HidCtlEnumerate | 4 | 0 | 0 | 0
+CollectionDemo/Unit1.pas | TForm1 | HidCtlDeviceChange | 3 | 0 | 0 | 0
+CollectionDemo/Unit1.pas | TForm1 | EnumerateNodes | 115 | 0 | 1 | 2
+CollectionDemo/Unit1.pas | TForm1 | HidCtlEnumerate | 7 | 0 | 0 | 0
+ReadWriteDemo/Unit1.pas | TForm1 | HidCtlDeviceChange | 21 | 0 | 0 | 3
+ReadWriteDemo/Unit1.pas | TForm1 | HidCtlEnumerate | 12 | 0 | 0 | 1
+ReadWriteDemo/Unit1.pas | TForm1 | FormActivate | 18 | 0 | 0 | 1
+ReadWriteDemo/Unit1.pas | TForm1 | FormDestroy | 6 | 0 | 0 | 1
+ReadWriteDemo/Unit1.pas | TForm1 | InfoButtonClick | 7 | 0 | 0 | 1
+ReadWriteDemo/Unit1.pas | TForm1 | DoRead | 35 | 0 | 0 | 2
+ReadWriteDemo/Unit1.pas | TForm1 | DoWrite | 35 | 1 | 0 | 2
+ReadWriteDemo/Unit1.pas | TForm1 | ReadButtonClick | 1 | 0 | 0 | 0
+ReadWriteDemo/Unit1.pas | TForm1 | WriteButtonClick | 1 | 0 | 0 | 0
+ReadWriteDemo/Unit1.pas | TForm1 | ListBox1Click | 12 | 0 | 0 | 1
+ReadWriteDemo/Unit2.pas | TInfoForm | FormCreate | 17 | 0 | 0 | 0
+ThreadDemo/MouseReader.pas | TForm1 | HidCtlDeviceChange | 38 | 0 | 7 | 2
+ThreadDemo/MouseReader.pas | TMouseThread | HandleMouseData | 6 | 0 | 2 | 0
+ThreadDemo/MouseReader.pas | TMouseThread | Execute | 18 | 0 | 5 | 1
+ThreadDemo/MouseReader.pas | TMouseThread | Execute/Dummy | 0 | 0 | 0 | 0
 
 - `total lines` means the number of lines between `begin` and `end`. It doesn't contains `begin` and `end`.
 - `comment_lines` means the number of lines which is totally commented out with `//`.
@@ -93,54 +114,34 @@ TODO Update the result before 1st release.
 $ object_pascal_analyzer json json PATH\_TO\_DIRECTORY  > result.json
 ```
 
-TODO Update the result before 1st release.
-
 ```json
 {
-    "files": [
+  "files": [
+    {
+      "path": "Unit1.pas",
+      "classes": [
         {
-            "path": "JvChart.pas",
-            "classes": [
-                {
-                    "name": "TJvChart",
-                    "functions": [
-                        {
-                            "name": "PaintCursor",
-                            "total_lines": 12,
-                            "empty_lines": 2,
-                            "comment_lines": 1,
-                            "living_lines": 9,
-                            "max_depth": 1
-                        },
-                        {
-                            "name": "PrimaryYAxisLabels",
-                            "total_lines": 27,
-                            "empty_lines": 0,
-                            "comment_lines": 0,
-                            "living_lines": 27,
-                            "max_depth": 3
-                        },
-                        {
-                            "name": "DrawVerticalBars",
-                            "total_lines": 51,
-                            "empty_lines": 6,
-                            "comment_lines": 5,
-                            "living_lines": 40,
-                            "max_depth": 2
-                        },
-                        {
-                            "name": "DrawVerticalBars/CalcRawRect",
-                            "total_lines": 9,
-                            "empty_lines": 0,
-                            "comment_lines": 0,
-                            "living_lines": 9,
-                            "max_depth": 0
-                        }
-                    ]
-                }
-            ]
+          "name": "TForm1",
+          "functions": [
+            {
+              "name": "HidCtlDeviceChange",
+              "total_lines": 2,
+              "empty_lines": 0,
+              "comment_lines": 0,
+              "max_depth": 0
+            },
+            {
+              "name": "HidCtlEnumerate",
+              "total_lines": 4,
+              "empty_lines": 0,
+              "comment_lines": 0,
+              "max_depth": 0
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }
 ```
 
