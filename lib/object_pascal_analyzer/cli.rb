@@ -7,7 +7,7 @@ require 'thor'
 module ObjectPascalAnalyzer
   class Cli < Thor
 
-    class Col
+    class Column
       attr_reader :key, :alignment, :title
       def initialize(key, alignment, title)
         @key, @alignment, @title = key, alignment, title
@@ -23,13 +23,13 @@ module ObjectPascalAnalyzer
     end
 
     COLS = [
-      Col.new(:path,          '-', 'Path'),
-      Col.new(:class,         '-', 'Class'),
-      Col.new(:name,          '-', 'Name'),
-      Col.new(:total_lines,   '' , 'Total'),
-      Col.new(:empty_lines,   '' , 'Empty'),
-      Col.new(:comment_lines, '' , 'Comment'),
-      Col.new(:max_depth,     '' , 'Depth'),
+      Column.new(:path,          '-', 'Path'),
+      Column.new(:class,         '-', 'Class'),
+      Column.new(:name,          '-', 'Name'),
+      Column.new(:total_lines,   '' , 'Total'),
+      Column.new(:empty_lines,   '' , 'Empty'),
+      Column.new(:comment_lines, '' , 'Comment'),
+      Column.new(:max_depth,     '' , 'Depth'),
     ]
 
     SORT_KEYS = {
